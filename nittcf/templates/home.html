@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+{% for post in posts %}
+    <div class="quiz-container">
+        <div class="d-flex flex-column justify-content-evenly gap-2">
+            <div class="d-flex gap-2 align-items-center">
+                <a href="{{url_for('post_upvote',post_id=post.id)}}" class="d-flex align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM135.1 217.4l107.1-99.9c3.8-3.5 8.7-5.5 13.8-5.5s10.1 2 13.8 5.5l107.1 99.9c4.5 4.2 7.1 10.1 7.1 16.3c0 12.3-10 22.3-22.3 22.3H304v96c0 17.7-14.3 32-32 32H240c-17.7 0-32-14.3-32-32V256H150.3C138 256 128 246 128 233.7c0-6.2 2.6-12.1 7.1-16.3z"/></svg>
+                </a>
+    
+                <small>{{ post.upvotes }}</small>
+            </div>
+            
+            <div class="d-flex gap-2 align-items-center">
+                <a href="{{url_for('post_downvote',post_id=post.id)}}" class="d-flex align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM376.9 294.6L269.8 394.5c-3.8 3.5-8.7 5.5-13.8 5.5s-10.1-2-13.8-5.5L135.1 294.6c-4.5-4.2-7.1-10.1-7.1-16.3c0-12.3 10-22.3 22.3-22.3l57.7 0 0-96c0-17.7 14.3-32 32-32l32 0c17.7 0 32 14.3 32 32l0 96 57.7 0c12.3 0 22.3 10 22.3 22.3c0 6.2-2.6 12.1-7.1 16.3z"/></svg>
+                </a>
+    
+                <small>{{ post.downvotes }}</small>
+            </div>
+            
+        </div>
+        <a href="{{url_for('user_account',user_id=post.author.id)}}">
+            <img class="display-img" src="{{url_for('static',filename='profile_pics/'+ post.author.image_file)}}" alt="">
+        </a>
+        
+        <div class="display-content">
+            <h2><a href="{{url_for('post',post_id=post.id)}}">{{post.title}}</a></h2>
+            <p>By <span>{{post.author.username}}</span> on {{post.date_posted.strftime('%Y-%m-%d')}}</p>
+        </div>
+
+    </div>
+{% endfor %}
+{% endblock content%}

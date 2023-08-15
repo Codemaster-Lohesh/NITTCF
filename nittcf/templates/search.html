@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="m-3">
+                <legend class="border-bottom">Search</legend>
+                <div>
+                    {{ form.user.label(class="form-label") }}
+                    {{ form.user(class="form-control") }}
+                </div>
+            </fieldset>
+            <div class="d-flex justify-content-center">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>                
+        </form>
+        
+        <div>
+            <h2 class="border-bottom">Results</h2>
+            {% if users %}
+                {% for user in users %}
+                    {% if user.username==current_user.username %}
+                    <div class="text-center"><h3>You are the user</h3></div>
+                    
+                    {% else %}
+                    <div class="container border-dark d-flex justify-content-start gap-3 ">
+                        <a href="{{url_for('user_account',user_id=user.id)}}">
+                            <img class="display-img" src="{{url_for('static',filename='profile_pics/'+ user.image_file)}}" alt="">
+                        </a>
+                        
+                        <div class="display-content">
+                            <h2><span>{{user.username}}</span></h2>
+                        </div>
+                        <div>
+                            <a class="btn btn-success btn-sm mt-1 mb-1" href="{{ url_for('follow_user', user_id=user.id) }}">Follow</a>
+                        </div>
+                    </div>
+                    {% endif %} 
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+    
+
+{% endblock %}

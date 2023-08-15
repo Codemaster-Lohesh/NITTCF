@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% if title %}
+        <title>NITTCF - {{title}}</title>
+    {% else %}
+        <title>NITTCF</title>
+    {% endif %}
+
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand navbar-dark bg-dark">
+            <div class="container">
+                <a href="{{ url_for('home') }}" class="navbar-brand">NITTCF</a>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="{{ url_for('search') }}" class="nav-link">Search</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item"><a href="{{ url_for('new_post') }}" class="nav-link">New Post</a></li>
+                        <li class="nav-item"><a href="{{ url_for('account') }}" class="nav-link">Account</a></li>
+                        <li class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link">Logout</a></li>
+                    {% else %}
+                        <li class="nav-item"><a href="{{ url_for('register') }}" class="nav-link">Register</a></li>
+                        <li class="nav-item"><a href="{{ url_for('login') }}" class="nav-link">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="main-wrapper">
+        {% if current_user.is_authenticated %}
+        <aside class="bg-dark d-flex flex-column align-items-stretch container-fluid">
+            <div class="text-center container text-light border-bottom"><h3>Followers</h3></div>
+            <div class="d-flex flex-column width">
+                {% if followers %}
+                    {% for follower in followers %}
+                    <div class="container border-dark d-flex justify-content-start gap-3 m-3">
+                        <a href="{{url_for('user_account',user_id=follower.follower_user_id)}}">
+                            <img class="display-img" src="{{url_for('static',filename='profile_pics/'+ follower.image_file)}}" alt="">
+                        </a>
+                        
+                        <div class="display-content">
+                            <h2><span class="text-light">{{follower.username}}</span></h2>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </aside>
+        {% else %}
+        <aside></aside>
+        {% endif %}
+        <main class="main-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+        <aside class="side-bar">
+
+        </aside>
+    </div>
+    
+</body>
+</html>

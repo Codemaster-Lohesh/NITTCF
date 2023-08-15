@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-wrapper">
+        <div class="account-details">
+            <img class="account-img" src="{{ image_file }}" alt="">
+            <h1>{{ user.username }}</h1>
+        </div>
+        <div>
+            <h2>Posts</h2>
+            <hr>
+            {% for post in posts %}
+                <div class="quiz-container">
+                    
+                    <img class="display-img" src="{{url_for('static',filename='profile_pics/'+ post.author.image_file)}}" alt="">
+                    
+                    
+                    <div class="display-content">
+                        <h1><a href="{{url_for('post',post_id=post.id)}}">{{post.title}}</a></h1>
+                        <p>By <span>{{post.author.username}}</span> on {{post.date_posted.strftime('%Y-%m-%d')}}</p>
+                    </div>
+                </div>
+            {% endfor %}  
+        </div>
+    </div>
+{% endblock content%}

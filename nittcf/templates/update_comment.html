@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container border-2">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset class="m-3">
+            <legend class="border-bottom">{{ legend }}</legend>
+            <div class="container">
+                {{ form.content.label(class="form-label") }}
+                {% if form.content.errors %}
+                    {{ form.content(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.content.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.content(class="form-control") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="d-flex justify-content-center">
+            {{ form.submit(class="btn btn-outline-info")}}
+        </div>
+    </form>
+</div>
+    
+{% endblock %}
